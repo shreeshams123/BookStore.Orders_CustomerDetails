@@ -17,10 +17,11 @@ namespace BookStore.Orders.Repositories
            _customerDetailsCollection = mongoDbService.Database.GetCollection<CustomerDetails>("CustomerDetails");
         }
 
-        public async Task<ApiResponse<CustomerDetails>> AddCustomerDetailsFromDbAsync(CustomerDetailsDto customerDetails,int userId)
+        public async Task<ApiResponse<CustomerDetailsResponseDto>> AddCustomerDetailsFromDbAsync(CustomerDetailsDto customerDetails,int userId)
         {
-            var newcustomer = new CustomerDetails
+            var newCustomer = new CustomerDetails
             {
+                
                 UserId = userId,
                 Name = customerDetails.Name,
                 Address = customerDetails.Address,
@@ -29,12 +30,22 @@ namespace BookStore.Orders.Repositories
                 City = customerDetails.City,
                 State = customerDetails.State,
             };
-            await _customerDetailsCollection.InsertOneAsync(newcustomer);
-            return new ApiResponse<CustomerDetails>
+            await _customerDetailsCollection.InsertOneAsync(newCustomer);
+            return new ApiResponse<CustomerDetailsResponseDto>
             {
                 Success= true,
                 Message="Added customer details successfully",
-                Data=newcustomer
+                Data = new CustomerDetailsResponseDto
+                {
+                    Id = newCustomer.Id.ToString(), 
+                    UserId = newCustomer.UserId,
+                    Name = newCustomer.Name,
+                    Address = newCustomer.Address,
+                    AddressType = newCustomer.AddressType,
+                    Phone = newCustomer.Phone,
+                    City = newCustomer.City,
+                    State = newCustomer.State
+                }
             };
         }
 

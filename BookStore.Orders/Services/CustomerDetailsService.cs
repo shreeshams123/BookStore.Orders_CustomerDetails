@@ -16,7 +16,7 @@ namespace BookStore.Orders.Services
             _tokenService = tokenService;
             
         }
-        public async Task<ApiResponse<CustomerDetails>> AddCustomerDetailsAsync(CustomerDetailsDto customerDetails)
+        public async Task<ApiResponse<CustomerDetailsResponseDto>> AddCustomerDetailsAsync(CustomerDetailsDto customerDetails)
         {
             int userId = _tokenService.GetUserIdFromToken();
             return await _customerRepo.AddCustomerDetailsFromDbAsync(customerDetails,userId);

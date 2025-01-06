@@ -122,8 +122,9 @@ namespace BookStore.Orders.Repositories
                 {
                     return new ApiResponse<List<Order>>
                     {
-                        Success = false,
-                        Message = "No orders found."
+                        Success = true,
+                        Message = "No orders found.",
+                        Data= new List<Order>()
                     };
                 }
 

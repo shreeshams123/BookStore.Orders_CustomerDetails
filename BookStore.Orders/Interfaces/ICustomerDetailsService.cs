@@ -8,7 +8,7 @@ namespace BookStore.Orders.Interfaces
 
     {
         Task<ApiResponse<List<CustomerResponseDto>>> GetCustomerDetailsByUserIdAsync();
-        Task<ApiResponse<CustomerDetails>> AddCustomerDetailsAsync(CustomerDetailsDto customerDetails);
+        Task<ApiResponse<CustomerDetailsResponseDto>> AddCustomerDetailsAsync(CustomerDetailsDto customerDetails);
         Task<ApiResponse<CustomerDetails>> DeleteCustomerDetailsAsync(string addressId);
         Task<ApiResponse<CustomerDetails>> UpdateCustomerDetailsAsync(string addressId, CustomerDetailsDto customerDetails);
         Task<ApiResponse<CustomerDetails>> GetAddressByUserIdAsync(string addressId);

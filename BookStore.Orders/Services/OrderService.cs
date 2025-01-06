@@ -148,6 +148,7 @@ namespace BookStore.Orders.Services
                             {
                                 BookId = orderItem.BookId,
                                 Quantity = orderItem.Quantity,
+                                title=bookDetails.Title,
                                 BookPrice= bookDetails.Price,
                                 Author = bookDetails.Author,
                                 Image = bookDetails.Image 
