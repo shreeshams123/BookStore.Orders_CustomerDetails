@@ -9,11 +9,19 @@ namespace BookStore.Orders.Data
         public MongoDbService(IConfiguration configuration)
         {
             _configuration = configuration;
-            var connectionString = _configuration.GetConnectionString("DbConnection");
+            var connectionString = _configuration["ConnectionStrings:DbConnection"];
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException(nameof(connectionString), "Connection string cannot be null or empty.");
+            }
+
             var mongoUrl = MongoUrl.Create(connectionString);
             var mongoClient = new MongoClient(mongoUrl);
-            _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+
+            var databaseName = mongoUrl.DatabaseName ?? "DefaultDatabase";
+            _database = mongoClient.GetDatabase(databaseName);
         }
+
         public IMongoDatabase? Database => _database;
     }
 }

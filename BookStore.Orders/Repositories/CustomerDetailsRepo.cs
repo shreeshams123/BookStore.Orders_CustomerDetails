@@ -8,20 +8,20 @@ using MongoDB.Driver;
 
 namespace BookStore.Orders.Repositories
 {
-    public class CustomerDetailsRepo:ICustomerDetailsRepo
+    public class CustomerDetailsRepo : ICustomerDetailsRepo
     {
         private readonly IMongoCollection<CustomerDetails> _customerDetailsCollection;
 
         public CustomerDetailsRepo(MongoDbService mongoDbService)
         {
-           _customerDetailsCollection = mongoDbService.Database.GetCollection<CustomerDetails>("CustomerDetails");
+            _customerDetailsCollection = mongoDbService.Database.GetCollection<CustomerDetails>("CustomerDetails");
         }
 
-        public async Task<ApiResponse<CustomerDetailsResponseDto>> AddCustomerDetailsFromDbAsync(CustomerDetailsDto customerDetails,int userId)
+        public async Task<ApiResponse<CustomerDetailsResponseDto>> AddCustomerDetailsFromDbAsync(CustomerDetailsDto customerDetails, int userId)
         {
             var newCustomer = new CustomerDetails
             {
-                
+
                 UserId = userId,
                 Name = customerDetails.Name,
                 Address = customerDetails.Address,
@@ -33,11 +33,11 @@ namespace BookStore.Orders.Repositories
             await _customerDetailsCollection.InsertOneAsync(newCustomer);
             return new ApiResponse<CustomerDetailsResponseDto>
             {
-                Success= true,
-                Message="Added customer details successfully",
+                Success = true,
+                Message = "Added customer details successfully",
                 Data = new CustomerDetailsResponseDto
                 {
-                    Id = newCustomer.Id.ToString(), 
+                    Id = newCustomer.Id.ToString(),
                     UserId = newCustomer.UserId,
                     Name = newCustomer.Name,
                     Address = newCustomer.Address,
@@ -53,7 +53,7 @@ namespace BookStore.Orders.Repositories
         {
             var customerDetailsList = await _customerDetailsCollection
                 .Find(c => c.UserId == userId)
-                .ToListAsync();  
+                .ToListAsync();
 
             if (customerDetailsList == null || !customerDetailsList.Any())
             {
@@ -66,11 +66,11 @@ namespace BookStore.Orders.Repositories
             }
             var customerDtos = customerDetailsList.Select(c => new CustomerDataDto
             {
-                Id=c.Id.ToString(),
+                Id = c.Id.ToString(),
                 UserId = c.UserId,
                 Address = c.Address,
                 Name = c.Name,
-                AddressType=c.AddressType,
+                AddressType = c.AddressType,
                 Phone = c.Phone,
                 City = c.City,
                 State = c.State,
@@ -86,7 +86,7 @@ namespace BookStore.Orders.Repositories
                 Data = new List<CustomerResponseDto> { responseDto }
             };
         }
-        public async Task<ApiResponse<CustomerDetails>> DeleteCustomerDetailsFromDb(string addressId,int userId)
+        public async Task<ApiResponse<CustomerDetails>> DeleteCustomerDetailsFromDb(string addressId, int userId)
         {
             var objectId = ObjectId.Parse(addressId);
             var filter = Builders<CustomerDetails>.Filter.And(

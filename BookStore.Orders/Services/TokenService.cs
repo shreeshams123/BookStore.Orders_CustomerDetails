@@ -13,7 +13,7 @@ namespace BookStore.Orders.Services
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
-        public int GetUserIdFromToken()
+        public virtual int GetUserIdFromToken()
         {
             try
             {
